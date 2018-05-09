@@ -102,7 +102,7 @@ XenClient.UI.HostModel = function() {
         host:       new XenClient.DBus.XenmgrHostClient("com.citrix.xenclient.xenmgr", "/host"),
         input:      new XenClient.DBus.InputDaemonClient("com.citrix.xenclient.input", "/"),
         surfman:    new XenClient.DBus.SurfmanClient("com.citrix.xenclient.surfman", "/"),
-        network:    new XenClient.DBus.NetworkDaemonClient("com.citrix.xenclient.networkdaemon", "/"),
+        //network:    new XenClient.DBus.NetworkDaemonClient("com.citrix.xenclient.networkdaemon", "/"),
         xcpmd:      new XenClient.DBus.XcpmdClient("com.citrix.xenclient.xcpmd", "/")
     };
 
@@ -117,7 +117,7 @@ XenClient.UI.HostModel = function() {
         installer:  services.host.com.citrix.xenclient.xenmgr.installer,
         input:      services.input.com.citrix.xenclient.input,
         surfman:    services.surfman.com.citrix.xenclient.surfman,
-        network:    services.network.com.citrix.xenclient.networkdaemon,
+        //network:    services.network.com.citrix.xenclient.networkdaemon,
         xcpmd:      services.xcpmd.com.citrix.xenclient.xcpmd
         // the usb interface is now used through XUICache.USB
         // and is instantiated in this.load()
@@ -176,7 +176,7 @@ XenClient.UI.HostModel = function() {
         ["deferred_password",                   interfaces.installer.get_installstate, "deferred-dom0-password"],
         ["deferred_language",                   interfaces.installer.get_installstate, "deferred-language"],
         ["vm_templates",                        interfaces.manager.list_ui_templates],
-        ["available_networks",                  interfaces.network.list],
+//        ["available_networks",                  interfaces.network.list],
         ["plugins",                             interfaces.host.list_ui_plugins, XenConstants.Plugins.PLUGIN_DIR]
     ];
 
@@ -339,7 +339,8 @@ XenClient.UI.HostModel = function() {
     this.decreaseBrightness = interfaces.surfman.decrease_brightness;
     this.listBatteries = interfaces.xcpmd.batteries_present; 
     this.listPowerDevices = interfaces.xcpmd.battery_is_present;
-    this.listNDVMs = interfaces.network.list_backends;
+//    this.listNDVMs = interfaces.network.list_backends;
+    this.listNDVMs = [];
     this.showStatusReport = interfaces.diag.status_report_screen;
     this.createStatusReport = interfaces.diag.create_status_report;
     this.taasGetLegal = interfaces.diag.taas_authenticate_credentials;

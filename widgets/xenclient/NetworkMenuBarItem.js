@@ -18,36 +18,43 @@ return declare("citrix.xenclient.NetworkMenuBarItem", [menuBarItem], {
     defaultLabel: "",
 
     constructor: function(args) {
-        this.ndvm = XUICache.NDVMs[args.path];
+//        this.ndvm = XUICache.NDVMs[args.path];
+        this.ndvm = {}; 
     },
 
     postCreate: function() {
         this.tooltip = new tooltip({ connectId: this.focusNode, position: ["below"], showDelay: 200, baseClass: "citrixTooltip" });
-        this.subscribe(this.ndvm.publish_topic, this._messageHandler);
+        //this.subscribe(this.ndvm.publish_topic, this._messageHandler);
         this.inherited(arguments);
         this.startup();
         this._bindDijit();
     },
-
+   
+    /*
     onClick: function() {
         var position = dojo.position(this.focusNode);
         this.ndvm.popupNetworkMenu(position.x, position.y + position.h);
     },
-
+    */
     setIcon: function() {
-        var icon = this.ndvm.getIcon();
+        //var icon = this.ndvm.getIcon();
+        var icon = "None"; 
         var preloader = icon.startsWith("Connecting");
         this.set("iconClass", "networkIcon networkIcon" + icon);
         this._setDisplay(this.preloaderNode, preloader);
     },
 
     _bindDijit: function() {
-        this.set("label", this.ndvm.name || this.defaultLabel);
-        this.tooltip.label = this.ndvm.fullNameWhenTruncated();
+        //this.set("label", this.ndvm.name || this.defaultLabel);
+        //this.tooltip.label = this.ndvm.fullNameWhenTruncated();
+        //this.set("label", this.defaultLabel);
+        this.set("label", "Network");
+        this.tooltip.label = ""; 
         this.setIcon();
         this.inherited(arguments);
     },
-
+    
+    /*
     _messageHandler: function(message) {
         switch(message.type) {
             case XenConstants.TopicTypes.MODEL_STATE_CHANGED:
@@ -57,5 +64,6 @@ return declare("citrix.xenclient.NetworkMenuBarItem", [menuBarItem], {
             }
         }
     }
+    */
 });
 });

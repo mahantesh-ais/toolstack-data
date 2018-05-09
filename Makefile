@@ -36,9 +36,6 @@ IDLS=	xenmgr.xml \
 	xenvm.xml \
 	surfman.xml \
 	updatemgr.xml \
-	network.xml \
-	network_daemon.xml \
-	network_domain.xml \
 	xcpmd.xml
 
 JS_SRC=$(shell find widgets -type f -print )

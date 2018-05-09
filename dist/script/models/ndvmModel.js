@@ -10,27 +10,31 @@ XenClient.UI.NDVMModel = function(ndvm_path) {
     // Properties & Defaults
     this.publish_topic = ndvm_path;
     this.ndvm_path = ndvm_path;
-    this.uuid = "";
-    this.name = "";
+//    this.uuid = "";
+//    this.name = "";
+    this.uuid = "00000000-0000-0000-0000-000000000002";//temporary fix
+    this.name = "Network";//temporary fix
     this.include_networks = false;
     this.networks = {};
     this.chosen_network_path = "";
 
-    // Services
+    /** Services
     var services = {
         domain: new XenClient.DBus.NetworkDomainClient("com.citrix.xenclient.networkdaemon", ndvm_path)
     };
+    **/
 
-    // Interfaces
+    /** Interfaces
     var interfaces = {
         domain: services.domain.com.citrix.xenclient.networkdomain,
         config: services.domain.com.citrix.xenclient.networkdomain.config
     };
+    **/
 
     // Mappings
     var readOnlyMap = [
-        ["uuid",        interfaces.config],
-        ["name",        interfaces.config]
+       // ["uuid",        interfaces.config],
+       // ["name",        interfaces.config]
     ];
 
     // Repository
@@ -62,7 +66,7 @@ XenClient.UI.NDVMModel = function(ndvm_path) {
             wait.finish();
         });
     };
-
+   
     this.refresh = function(finish) {
         repository.refresh(false, function() {
             var wait = new XUtils.AsyncWait(
@@ -81,8 +85,10 @@ XenClient.UI.NDVMModel = function(ndvm_path) {
         });
     };
 
+    /**
     this.popupNetworkMenu = interfaces.domain.popup_network_menu;
     this.closeNetworkMenu = interfaces.domain.close_network_menu;
+    */
 
     var chooseNetwork = function() {
         self.chosen_network_path = "";
@@ -151,7 +157,7 @@ XenClient.UI.NDVMModel = function(ndvm_path) {
                 });
                 wait.finish();
             };
-            interfaces.domain.list_networks(onSuccess, wait.error);
+           // interfaces.domain.list_networks(onSuccess, wait.error);
         }
     };
 
