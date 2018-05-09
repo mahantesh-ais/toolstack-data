@@ -42,7 +42,7 @@ return declare("citrix.xenclient.MediaWizard", [_wizard], {
         this.inherited(arguments);
 
         this.subscribe(this.host.publish_topic, this._messageHandler);
-        this.subscribe("com.citrix.xenclient.networkdaemon", this._messageHandler);
+//        this.subscribe("com.citrix.xenclient.networkdaemon", this._messageHandler);
         this._bindDijit();
         this._setupBoot();
 

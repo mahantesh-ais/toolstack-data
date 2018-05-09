@@ -20,26 +20,28 @@ XenClient.UI.NetworkModel = function(network_path) {
     this.include_ndvm = false;
     this.ndvm = null;
 
-    // Services
+    /** Services
     var services = {
         network:     new XenClient.DBus.NetworkClient("com.citrix.xenclient.networkdaemon", network_path)
     };
+    */
 
-    // Interfaces
+    /** Interfaces
     var interfaces = {
         config:     services.network.com.citrix.xenclient.network.config
     };
+    */
 
     // Mappings
     var readOnlyMap = [
-        ["label",           interfaces.config],
-        ["type",            interfaces.config],
-        ["mode",            interfaces.config,      "connection"],
-        ["ndvm_uuid",       interfaces.config,      "backend-uuid"],
-        ["mac",             interfaces.config,      "mac-address"],
-        ["device_state",    interfaces.config,      "nm-state"],
-        ["device_mode",     interfaces.config,      "extra-info",   XenConstants.Network.ACTIVE_AP.MODE],
-        ["device_strength", interfaces.config,      "extra-info",   XenConstants.Network.ACTIVE_AP.STRENGTH]
+      //  ["label",           interfaces.config],
+      //  ["type",            interfaces.config],
+      //  ["mode",            interfaces.config,      "connection"],
+      //  ["ndvm_uuid",       interfaces.config,      "backend-uuid"],
+      //  ["mac",             interfaces.config,      "mac-address"],
+      //  ["device_state",    interfaces.config,      "nm-state"],
+      //  ["device_mode",     interfaces.config,      "extra-info",   XenConstants.Network.ACTIVE_AP.MODE],
+      //  ["device_strength", interfaces.config,      "extra-info",   XenConstants.Network.ACTIVE_AP.STRENGTH]
     ];
 
     // Repository
