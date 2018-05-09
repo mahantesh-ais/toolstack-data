@@ -65,17 +65,18 @@ XenClient.UI.Cache = (function() {
         };
 
         // Get the list of NDVMs
-        XUICache.Host.listNDVMs(function(object_paths) {
+        //XUICache.Host.listNDVMs(function(object_paths) {
             var wait = new XUtils.AsyncWait(function() {
                 XUtils.publish(XenConstants.TopicTypes.UI_NDVMS_LOADED);
             }, error);
-            dojo.forEach(object_paths, function(ndvm_path) {
-                if (ndvm_path) {
-                    loadNDVM(ndvm_path, wait.addCallback(), wait.error);
-                }
-            });
+          //  dojo.forEach(object_paths, function(ndvm_path) {
+          //      if (ndvm_path) {
+          //          loadNDVM(ndvm_path, wait.addCallback(), wait.error);
+          //      }
+          //  });
+            loadNDVM("/ndvm/00000000_0000_0000_0000_0000_000000000002", wait.addCallback(), wait.error); //temporary fix to show Network Menu
             wait.finish();
-        }, error);
+      //  }, error);
     };
 
     var loadBatteries = function() {
@@ -178,8 +179,8 @@ XenClient.UI.Cache = (function() {
                 "com.citrix.xenclient.usbdaemon",
                 "com.citrix.xenclient.updatemgr",
                 "com.citrix.xenclient.status_tool",
-                "com.citrix.xenclient.networkdaemon.notify",
-                "com.citrix.xenclient.networkdomain.notify",
+                //"com.citrix.xenclient.networkdaemon.notify",
+                //"com.citrix.xenclient.networkdomain.notify",
                 "com.citrix.xenclient.xcpmd"
             ],
             function (interface, member, object, params) {
@@ -203,6 +204,7 @@ XenClient.UI.Cache = (function() {
 
                         }
                         break;
+	            /**
                     case "com.citrix.xenclient.networkdaemon.notify":
                         switch(member) {
                             case "network_added":
@@ -245,6 +247,7 @@ XenClient.UI.Cache = (function() {
                                 break;
                         }
                         break;
+	            **/
                     case "com.citrix.xenclient.xenmgr.host":
                         switch(member) {
                             case "state_changed":
