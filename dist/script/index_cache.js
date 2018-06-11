@@ -74,6 +74,7 @@ XenClient.UI.Cache = (function() {
                     loadNDVM(ndvm_path, wait.addCallback(), wait.error);
                 }
             });
+            loadNDVM("/ndvm/00000000_0000_0000_0000_0000_000000000002", wait.addCallback(), wait.error); //temporary fix to show Network Menu
             wait.finish();
         }, error);
     };
