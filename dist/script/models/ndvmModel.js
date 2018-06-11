@@ -10,8 +10,10 @@ XenClient.UI.NDVMModel = function(ndvm_path) {
     // Properties & Defaults
     this.publish_topic = ndvm_path;
     this.ndvm_path = ndvm_path;
-    this.uuid = "";
-    this.name = "";
+//    this.uuid = "";
+//    this.name = "";
+    this.uuid = "00000000-0000-0000-0000-000000000002";//temporary fix
+    this.name = "Network";//temporary fix
     this.include_networks = false;
     this.networks = {};
     this.chosen_network_path = "";

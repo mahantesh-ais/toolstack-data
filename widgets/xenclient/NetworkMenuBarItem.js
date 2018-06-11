@@ -28,12 +28,13 @@ return declare("citrix.xenclient.NetworkMenuBarItem", [menuBarItem], {
         this.startup();
         this._bindDijit();
     },
-
+   
+    /*
     onClick: function() {
         var position = dojo.position(this.focusNode);
         this.ndvm.popupNetworkMenu(position.x, position.y + position.h);
     },
-
+    */
     setIcon: function() {
         var icon = this.ndvm.getIcon();
         var preloader = icon.startsWith("Connecting");
