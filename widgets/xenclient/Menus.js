@@ -181,7 +181,8 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
 
     _gotNDVMs: function(items, request) {
         dojo.forEach(items, function(item, i) {
-            var ndvm_path = this.ndvmStore.getValue(item, "ndvm_path");
+            //var ndvm_path = this.ndvmStore.getValue(item, "ndvm_path");
+            var ndvm_path = "/ndvm/00000000_0000_0000_0000_000000000002";//temporary fix
             if (typeof(this.ndvms[ndvm_path]) === "undefined") {
                 this.ndvms[ndvm_path] = new networkMenuBarItem({ path: ndvm_path, defaultLabel: this.NETWORK });
             }
