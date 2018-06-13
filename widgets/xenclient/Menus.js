@@ -59,6 +59,7 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
         this._bindDijit();
         this._createNDVMStore();
         this._sortNDVMs();
+    	this._gotNDVMs(); 
     },
 
     onRestartClick: function() {
