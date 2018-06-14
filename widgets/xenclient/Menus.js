@@ -165,6 +165,7 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
             var ndvm = XUICache.NDVMs[key];
             var value = {ndvm_path: ndvm.ndvm_path, name: ndvm.name};
             values.push(value);
+	    alert(" pushing ndvm ")
         }, this);
         var data = {identifier: 'ndvm_path', items: values};
         this.ndvmStore = new itemFileReadStore({data: data});
@@ -186,6 +187,7 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
             if (typeof(this.ndvms[ndvm_path]) === "undefined") {
                 this.ndvms[ndvm_path] = new networkMenuBarItem({ path: ndvm_path, defaultLabel: this.NETWORK });
             }
+	    alert(" Adding child node ")
             this.menuNode.addChild(this.ndvms[ndvm_path]);
         }, this);
     },
