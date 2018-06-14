@@ -172,6 +172,14 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
     },
 
     _sortNDVMs: function() {
+        //got NDVMs
+        var ndvm_path = "/ndvm/00000000_0000_0000_0000_000000000002";//temporary fix
+        if (typeof(this.ndvms[ndvm_path]) === "undefined") {
+        this.ndvms[ndvm_path] = new networkMenuBarItem({ path: ndvm_path, defaultLabel: this.NETWORK });
+        }
+	alert(" Add child node ")
+        this.menuNode.addChild(this.ndvms[ndvm_path]);
+	// till here 
         this.ndvmStore.fetch({
             onComplete: dojo.hitch(this, this._gotNDVMs),
             sort: [{
