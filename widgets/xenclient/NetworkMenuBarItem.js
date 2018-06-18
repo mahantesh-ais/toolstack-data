@@ -47,8 +47,9 @@ return declare("citrix.xenclient.NetworkMenuBarItem", [menuBarItem], {
     _bindDijit: function() {
         //this.set("label", this.ndvm.name || this.defaultLabel);
         //this.tooltip.label = this.ndvm.fullNameWhenTruncated();
-        this.set("label", this.defaultLabel);
-        this.tooltip.label = "Network"; 
+        //this.set("label", this.defaultLabel);
+        this.set("label", "Network");
+        this.tooltip.label = ""; 
         this.setIcon();
         this.inherited(arguments);
     },
