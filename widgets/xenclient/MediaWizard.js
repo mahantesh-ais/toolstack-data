@@ -119,9 +119,13 @@ return declare("citrix.xenclient.MediaWizard", [_wizard], {
                     }
 
                     vm.save(function() {
-
+                        /* 
                         var createWired = (self._hasWired && result.wiredNetwork != "");
                         var createWireless = (self._hasWireless && result.wirelessNetwork != "");
+                        */
+
+                        var createWired = (result.wiredNetwork != "");
+                        var createWireless = (result.wirelessNetwork != "");
 
                         if(result.vmMode == "single") {
                             XUICache.Host.set_native_vm(vm.vm_path);
@@ -211,7 +215,8 @@ return declare("citrix.xenclient.MediaWizard", [_wizard], {
             });           
         }, this);
 
-        this._setDisplay(".wired", false);
+        // this._setDisplay(".wired", false);
+        this._setDisplay(".wired.some", true);
         if(this._hasWired) {
             wiredSelectList.unshift({
                 "label": this.NETWORK_NONE,
@@ -220,11 +225,12 @@ return declare("citrix.xenclient.MediaWizard", [_wizard], {
             this._setDisplay(".wired.some", true);
             this.wiredNetwork.set("options", wiredSelectList);
             this.wiredNetwork.set("value", defaultWired != "" ? defaultWired : wiredSelectList[0].value);
-        } else {
+        }/* else {
             this._setDisplay(".wired.none", true);
             this._setEnabled(this.wiredNetwork, false);
-        }
-        this._setDisplay(".wireless", false);
+        }*/
+        //this._setDisplay(".wireless", false);
+        this._setDisplay(".wireless.some", true);
         if(this._hasWireless) {
             wirelessSelectList.unshift({
                 "label": this.NETWORK_NONE,
@@ -233,10 +239,10 @@ return declare("citrix.xenclient.MediaWizard", [_wizard], {
             this._setDisplay(".wireless.some", true);
             this.wirelessNetwork.set("options", wirelessSelectList);
             this.wirelessNetwork.set("value", defaultWireless != "" ? defaultWireless : wirelessSelectList[0].value);
-        } else {
+        }/* else {
             this._setDisplay(".wireless.none", true);
             this._setEnabled(this.wirelessNetwork, false);
-        }
+        }*/
 
         this.inherited(arguments);
     },
