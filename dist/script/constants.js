@@ -444,4 +444,36 @@ XenClient.Resource.PCIClassIDs = [
 //    "0xFF00"  // Unassigned
 ];
 
+Namespace("XenClient.Resource.Network");
+
+XenClient.Resource.Network.NETWORK_TYPE = {
+    UNKNOWN : "unknown",
+    WIRED : "wired",
+    WIFI : "wifi",
+    MODEM : "modem",
+    INTERNAL : "internal",
+    ANY : "any",
+    VPN : "vpn"
+
+};
+
+XenClient.Resource.Network.CONNECTION_TYPE = {
+    UNKNOWN : "unknown",
+    SHARED : "shared",
+    BRIDGED : "bridged"
+
+};
+
+XenClient.Resource.Network.ACTIVE_AP = {
+    SSID : "ssid",
+    MODE : "mode",
+    FREQUENCY : "frequency",
+    STRENGTH : "strength",
+    HWADDRESS : "hwaddress",
+    MAXBITRATE : "maxbitrate",
+    WPAFLAGS : "wpaflags",
+    RSNFLAGS : "rsnflags"
+
+};
+
 XenConstants = XenClient.Resource;

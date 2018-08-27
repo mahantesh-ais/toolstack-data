@@ -100,14 +100,20 @@
                     <div class="citrixTabPaneField">
                         <label for="mw_wiredNetwork">${WIRED_LABEL}</label>
                         <select id="mw_wiredNetwork" class="citrix wired some" dojoType="citrix.common.Select" name="wiredNetwork" dojoAttachPoint="wiredNetwork">
+                            <option value="">${NETWORK_NONE}</option>
+                            <option value="/wired/0/shared">${TYPE_SHARED}</option>
+                            <option value="/internal/0">${TYPE_INTERNAL}</option>
+                            <option value="/wired/0/bridged" selected="selected">${TYPE_BRIDGED}</option>
                         </select>
-                        <span class="value citrix wired none">${NO_WIRED_NETWORK}</span>
+                        <!--span class="value citrix wired none">${NO_WIRED_NETWORK}</span-->
                     </div>
                     <div class="citrixTabPaneField">
                         <label for="mw_wirelessNetwork">${WIRELESS_LABEL}</label>
                         <select id="mw_wirelessNetwork" class="citrix wireless some" dojoType="citrix.common.Select" name="wirelessNetwork" dojoAttachPoint="wirelessNetwork">
+                            <option value="">${NETWORK_NONE}</option>
+                            <option value="/wifi/0/shared" selected="selected">${TYPE_WIFI}</option>
                         </select>
-                        <span class="value citrix wireless none">${NO_WIRELESS_NETWORK}</span>
+                        <!--span class="value citrix wireless none">${NO_WIRELESS_NETWORK}<!/span-->
                     </div>
                 </fieldset>
                 <div class="alignBottom">
