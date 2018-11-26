@@ -90,6 +90,14 @@ XenClient.UI.NDVMModel = function(ndvm_path) {
     this.closeNetworkMenu = interfaces.domain.close_network_menu;
     */
 
+    this.popupNetworkMenu = function(x_off, y_off) {
+        var socket = new XenClient.UI.WebSocket("1.0.0.1", 8080);
+        XenClient.UI.DBus.nw_connect(socket, function() {
+            var args = [x_off, y_off];
+            XenClient.UI.DBus.sendSignal("com.citrix.xenclient.xui", "popup_network_menu", args, "/", true);
+        });
+    };
+
     var chooseNetwork = function() {
         self.chosen_network_path = "";
         dojo.some(Object.keys(self.networks), function(key) {

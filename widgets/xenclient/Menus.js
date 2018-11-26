@@ -167,13 +167,15 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
             values.push(value);
 	    alert(" pushing ndvm ")
         }, this);
+        var value = {ndvm_path: "/ndvm/00000000_0000_0000_0000_000000000002", name: "Network"};
+        values.push(value);
         var data = {identifier: 'ndvm_path', items: values};
         this.ndvmStore = new itemFileReadStore({data: data});
     },
 
     _sortNDVMs: function() {
         // temporary fix
-	this.menuNode.addChild(new networkMenuBarItem({defaultLabel: this.Network}));
+	//this.menuNode.addChild(new networkMenuBarItem({defaultLabel: this.Network}));
         
 	this.ndvmStore.fetch({
             onComplete: dojo.hitch(this, this._gotNDVMs),
@@ -189,7 +191,7 @@ return declare("citrix.xenclient.Menus", [_widget, _templated, _citrixWidgetMixi
             if (typeof(this.ndvms[ndvm_path]) === "undefined") {
                 this.ndvms[ndvm_path] = new networkMenuBarItem({ path: ndvm_path, defaultLabel: this.NETWORK });
             }
-	    alert(" Adding child node ")
+	    //alert(" Adding child node ")
             this.menuNode.addChild(this.ndvms[ndvm_path]);
         }, this);
     },

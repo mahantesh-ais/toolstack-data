@@ -19,7 +19,7 @@ return declare("citrix.xenclient.NetworkMenuBarItem", [menuBarItem], {
 
     constructor: function(args) {
 //        this.ndvm = XUICache.NDVMs[args.path];
-        this.ndvm = {}; 
+        this.ndvm = {};
     },
 
     postCreate: function() {
@@ -30,12 +30,12 @@ return declare("citrix.xenclient.NetworkMenuBarItem", [menuBarItem], {
         this._bindDijit();
     },
    
-    /*
     onClick: function() {
         var position = dojo.position(this.focusNode);
+        this.ndvm = XUICache.NDVMs["/ndvm/00000000_0000_0000_0000_000000000002"];
         this.ndvm.popupNetworkMenu(position.x, position.y + position.h);
     },
-    */
+
     setIcon: function() {
         //var icon = this.ndvm.getIcon();
         var icon = "None"; 

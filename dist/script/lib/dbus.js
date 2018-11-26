@@ -15,6 +15,7 @@ function(dojoConnect, json) {
 XenClient.UI.DBus = (function() {
 
     var socket = null;
+    var nw_socket = null;
     var connected = false;
     var signalFn;
     var returnFns = {};
@@ -37,6 +38,9 @@ XenClient.UI.DBus = (function() {
         if (socket && socket.close) {
             socket.close();
         }
+        if (nw_socket && nw_socket.close) {
+            nw_socket.close();
+        }
     };
 
     // Connect to DBus
@@ -45,17 +49,30 @@ XenClient.UI.DBus = (function() {
         socket.connect(function() {
             socket.setReceiver(receiveMessage);
             var message = buildMessage("org.freedesktop.DBus", "Hello", "/org/freedesktop/DBus");
-            dbusMessage(message, function() {
+            dbusMessage(false, message, function() {
                 xc_debug.log("Connected to DBus");
                 connected = true;
             }.extend(success), failure, true);
         }, failure);
-	}
+    }
+
+    // Connect to DBus of ndvm
+    function nw_connect(elSocket, success, failure) {
+        nw_socket = elSocket;
+        nw_socket.connect(function() {
+            nw_socket.setReceiver(receiveMessage);
+            var message = buildMessage("org.freedesktop.DBus", "Hello", "/org/freedesktop/DBus");
+            dbusMessage(true, message, function() {
+                xc_debug.log("Connected to DBus");
+                connected = true;
+            }.extend(success), failure, true);
+        }, failure);
+    }
 
     // Register for signals from DBus
     function signalRegister(interface, success, failure) {
         var message = buildMessage("org.freedesktop.DBus", "AddMatch", "/org/freedesktop/DBus", "org.freedesktop.DBus", "type='signal',interface='" + interface + "'");
-    	dbusMessage(message, function() {
+    	dbusMessage(false, message, function() {
             xc_debug.log("Registered for signals with interface: {0}", interface);
             signals.push(interface);
         }.extend(success), function() {
@@ -66,7 +83,7 @@ XenClient.UI.DBus = (function() {
     // Deregister for signals from DBus
     function signalDeregister(interface, success, failure) {
         var message = buildMessage("org.freedesktop.DBus", "RemoveMatch", "/org/freedesktop/DBus", "org.freedesktop.DBus", "type='signal',interface='" + interface + "'");
-    	dbusMessage(message, function() {
+    	dbusMessage(false, message, function() {
             xc_debug.log("Deregistered for signals with interface: {0}", interface);
         }.extend(success), function() {
             xc_debug.log("Deregistration failed for signals with interface: {0}", interface);
@@ -88,7 +105,7 @@ XenClient.UI.DBus = (function() {
             onSuccess();
         } else {
             var message = buildMessage("com.citrix.xenclient.xenmgr", "is_service_running", "/host", "com.citrix.xenclient.xenmgr.host", service);
-            dbusMessage(message, function(running) {
+            dbusMessage(false, message, function(running) {
                 services[service] = running;
                 onSuccess();
             }, failure, connected);
@@ -135,23 +152,34 @@ XenClient.UI.DBus = (function() {
     }
 
     // Send a DBus message if connected and store return functions. Honour message limit
-    function dbusMessage(message, success, failure, connected) {
+    function dbusMessage(nw, message, success, failure, connected) {
         if (connected) {
             if (success || failure) {
                 returnFns[message.id] = {"success": success, "failure": failure};
             }
-            if(current_in_progress >= XenConstants.Defaults.MESSAGE_LIMIT) {
-                sendQueue.push(message);
-            } else {
-                socketMessage(message);
+
+            if( nw === true ){
+                socketMessage(true, message);
             }
-        }
+
+            if( nw === false ){
+                if(current_in_progress >= XenConstants.Defaults.MESSAGE_LIMIT) {
+                    sendQueue.push(message);
+                } else {
+                    socketMessage(false, message);
+                }
+            }
+      }
     }
 
     // Send a raw message on the WebSocket
-    function socketMessage(message) {
-        current_in_progress++;
-        socket.sendMessage(message);
+    function socketMessage(nw, message) {
+        if( nw === true ){
+            nw_socket.sendMessage(message);
+        } else {
+            current_in_progress++;
+            socket.sendMessage(message);
+        }
         if(XUtils.debug() === true && XenConstants.Defaults.MESSAGE_LOGGING) {
             message.sent = new Date().getTime();
             timings[message.id] = message;
@@ -162,7 +190,7 @@ XenClient.UI.DBus = (function() {
     function sendMessage(message, success, failure) {
         serviceRunning(message.destination, function(running) {
             if (running) {
-                return dbusMessage(message, success, failure, connected);
+                return dbusMessage(false, message, success, failure, connected);
             } else {
                 failure("The {0} service is not running.".format(message.destination));
             }
@@ -196,7 +224,7 @@ XenClient.UI.DBus = (function() {
                 var id = message["response-to"];
                 current_in_progress--;
                 if(sendQueue.length > 0) {
-                    socketMessage(sendQueue.shift());
+                    socketMessage(false, sendQueue.shift());
                 }
                 if (returnFns[id]) {
                     var fn = (type == "response" ? returnFns[id].success : returnFns[id].failure);
@@ -227,6 +255,7 @@ XenClient.UI.DBus = (function() {
     return {
         services: services,
         connect: connect,
+        nw_connect: nw_connect,
         signalRegister: function(signals, receiveFn, success, failure) {
             if (typeof(signals) === "string") {
                 signals = [signals];
@@ -248,9 +277,10 @@ XenClient.UI.DBus = (function() {
             var message = buildMessage(destination, member, path, interface, args);
             return sendMessage(message, success, failure);
         },
-        sendSignal: function(interface, member, args, path) {
+        sendSignal: function(interface, member, args, path, nw) {
             var signal = buildSignal(interface, member, args, path);
-            return sendMessage(signal);
+            //return sendMessage(signal);
+            socketMessage(nw, signal);
         },
         getProperty: function(destination, path, interface, member, success, failure) {
             var args = [interface, member];
